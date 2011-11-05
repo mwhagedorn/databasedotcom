@@ -571,6 +571,12 @@ describe Databasedotcom::Sobject::Sobject do
           TestClass.picklist_values("Foobar")
         }.should raise_error(ArgumentError)
       end
+      
+      it "checks for valid dependent fields" do
+        TestClass.picklist_values("Dependent_Picklist_Field", "one").length.should == 2
+        TestClass.picklist_values("Dependent_Picklist_Field", "two").length.should == 1
+        TestClass.picklist_values("Dependent_Picklist_Field", "three").length.should == 0
+      end
     end
 
     describe ".field_type" do

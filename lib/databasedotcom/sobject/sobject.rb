@@ -1,3 +1,5 @@
+require 'base64'
+
 module Databasedotcom
   module Sobject
     # Parent class of dynamically created sobject types. Interacts with Force.com through a Client object that is passed in during materialization.
@@ -171,8 +173,26 @@ module Databasedotcom
       end
 
       # Returns the possible picklist options for the attribute +attr_name+. If +attr_name+ is not of type picklist or multipicklist, [] is returned. Raises ArgumentError if attribute does not exist.
-      def self.picklist_values(attr_name)
-        self.type_map_attr(attr_name, :picklist_values)
+      def self.picklist_values(attr_name, dependent = nil)
+        if dependent == nil
+          self.type_map_attr(attr_name, :picklist_values)
+        else
+          controller = self.type_map_attr(attr_name, :controller_name)
+          controller_picklist_values = self.type_map_attr(controller, :picklist_values)
+          index = nil
+          (0..controller_picklist_values.size - 1).each do |i|
+            if (controller_picklist_values[i]["value"] == dependent)
+              index = i
+            end
+          end
+          self.type_map_attr(attr_name, :picklist_values).select { |value| self.test_bitset(value["validFor"], index) }
+        end
+      end
+      
+      # Returns true if the picklist value is valid for the dependent picklist at index
+      def self.test_bitset(valid_for, index)
+        valid_for = valid_for.ljust(16, 'A').unpack('m').first.unpack('q*')
+        return (valid_for[index >> 3] & (0x80 >> index % 8)) != 0
       end
 
       # Returns true if the attribute +attr_name+ can be updated. Raises ArgumentError if attribute does not exist.
@@ -314,6 +334,7 @@ module Databasedotcom
           :type => field["type"],
           :label => field["label"],
           :picklist_values => field["picklistValues"],
+          :controller_name => field["controllerName"],
           :updateable? => field["updateable"],
           :createable? => field["createable"]
         }
