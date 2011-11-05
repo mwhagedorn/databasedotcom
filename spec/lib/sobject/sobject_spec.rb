@@ -577,6 +577,16 @@ describe Databasedotcom::Sobject::Sobject do
         TestClass.picklist_values("Dependent_Picklist_Field", "two").length.should == 1
         TestClass.picklist_values("Dependent_Picklist_Field", "three").length.should == 0
       end
+      
+      it "returns an empty array if controlling value does not exist" do
+        TestClass.picklist_values("Dependent_Picklist_Field", "foobar").length.should == 0
+      end
+      
+      it "raises ArugmentError for unknown attributes with dependent fields" do
+        lambda {
+          TestClass.picklist_values("Foobar", "one")
+        }.should raise_error(ArgumentError)
+      end
     end
 
     describe ".field_type" do

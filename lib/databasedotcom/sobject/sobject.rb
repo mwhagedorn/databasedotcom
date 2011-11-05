@@ -181,6 +181,7 @@ module Databasedotcom
           self.type_map_attr(controller, :picklist_values).each_with_index do |value, index|
             return self.type_map_attr(attr_name, :picklist_values).select { |v| self.test_bitset(v["validFor"], index) } if value["value"] == dependent
           end
+          []
         end
       end
       
