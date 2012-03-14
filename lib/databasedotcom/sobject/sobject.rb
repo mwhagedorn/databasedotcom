@@ -1,5 +1,3 @@
-require 'base64'
-
 module Databasedotcom
   module Sobject
     # Parent class of dynamically created sobject types. Interacts with Force.com through a Client object that is passed in during materialization.
