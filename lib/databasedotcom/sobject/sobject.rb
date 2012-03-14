@@ -194,7 +194,7 @@ module Databasedotcom
       # Returns the possible picklist options for the attribute +attr_name+. If +attr_name+ is not of type picklist or multipicklist, [] is returned. Raises ArgumentError if attribute does not exist.
       # If _:valid_for_ is given in the +options+ hash, will return a filtered list of picklist values for the controlling field
       #
-      #     client.picklist_values('User', :valid_for => 'controlling value')
+      #     client.picklist_values('color', :valid_for => 'ferrari')
       def self.picklist_values(attr_name, options={})
         if valid_for = options.delete(:valid_for)
           controller = self.type_map_attr(attr_name, :controller_name)
