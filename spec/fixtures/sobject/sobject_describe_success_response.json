@@ -866,19 +866,19 @@
 	    "digits" : 0,
 	    "groupable" : true,
 	    "picklistValues" : [ {
-	      "value" : "one",
+	      "value" : "Valid for 'one'",
 	      "active" : true,
 	      "label" : "one",
 	      "defaultValue" : false,
 	      "validFor" : "gAAA"
 	    }, {
-	      "value" : "two",
+	      "value" : "Also valid for 'one'",
 	      "active" : true,
 	      "label" : "two",
 	      "defaultValue" : false,
 	      "validFor" : "gAAA"
 	    }, {
-	      "value" : "three",
+	      "value" : "Valid for 'two'",
 	      "active" : true,
 	      "label" : "three",
 	      "defaultValue" : false,

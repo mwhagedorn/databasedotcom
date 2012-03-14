@@ -192,15 +192,15 @@ module Databasedotcom
       end
 
       # Returns the possible picklist options for the attribute +attr_name+. If +attr_name+ is not of type picklist or multipicklist, [] is returned. Raises ArgumentError if attribute does not exist.
-      def self.picklist_values(attr_name, dependent=nil)
-        if dependent == nil
-          self.type_map_attr(attr_name, :picklist_values)
-        else
+      def self.picklist_values(attr_name, options={})
+        if valid_for = options.delete(:valid_for)
           controller = self.type_map_attr(attr_name, :controller_name)
           self.type_map_attr(controller, :picklist_values).each_with_index do |value, index|
-            return self.type_map_attr(attr_name, :picklist_values).select { |v| self.test_bitset(v["validFor"], index) } if value["value"] == dependent
+            return self.type_map_attr(attr_name, :picklist_values).select { |v| self.test_bitset(v["validFor"], index) } if value["value"] == valid_for
           end
-          []
+          return []
+        else
+          return self.type_map_attr(attr_name, :picklist_values)
         end
       end
       

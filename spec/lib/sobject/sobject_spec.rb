@@ -645,19 +645,19 @@ describe Databasedotcom::Sobject::Sobject do
         }.should raise_error(ArgumentError)
       end
       
-      it "checks for valid dependent fields" do
-        TestClass.picklist_values("Dependent_Picklist_Field", "one").length.should == 2
-        TestClass.picklist_values("Dependent_Picklist_Field", "two").length.should == 1
-        TestClass.picklist_values("Dependent_Picklist_Field", "three").length.should == 0
+      it "returns a filtered set of picklist values that are valid for the controlling field" do
+        TestClass.picklist_values("Dependent_Picklist_Field", :valid_for => "one").length.should == 2
+        TestClass.picklist_values("Dependent_Picklist_Field", :valid_for => "two").length.should == 1
+        TestClass.picklist_values("Dependent_Picklist_Field", :valid_for => "three").length.should == 0
       end
       
       it "returns an empty array if controlling value does not exist" do
-        TestClass.picklist_values("Dependent_Picklist_Field", "foobar").length.should == 0
+        TestClass.picklist_values("Dependent_Picklist_Field", :valid_for => "foobar").length.should == 0
       end
       
       it "raises ArugmentError for unknown attributes with dependent fields" do
         lambda {
-          TestClass.picklist_values("Foobar", "one")
+          TestClass.picklist_values("Foobar", :valid_for => "one")
         }.should raise_error(ArgumentError)
       end
     end
