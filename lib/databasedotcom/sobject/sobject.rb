@@ -208,12 +208,6 @@ module Databasedotcom
         values
       end
       
-      # Returns true if the picklist value is valid for the dependent picklist at index
-      def self.test_bitset(valid_for, index)
-        valid_for = valid_for.ljust(16, 'A').unpack('m').first.unpack('q*')
-        return (valid_for[index >> 3] & (0x80 >> index % 8)) != 0
-      end
-
       # Returns true if the attribute +attr_name+ can be updated. Raises ArgumentError if attribute does not exist.
       def self.updateable?(attr_name)
         self.type_map_attr(attr_name, :updateable?)
@@ -344,6 +338,12 @@ module Databasedotcom
       end
 
       private
+
+      # Returns true if the picklist value is valid for the dependent picklist at index
+      def self.test_bitset(valid_for, index)
+        valid_for = valid_for.ljust(16, 'A').unpack('m').first.unpack('q*')
+        return (valid_for[index >> 3] & (0x80 >> index % 8)) != 0
+      end
 
       def self.register_field( name, field )
         public
