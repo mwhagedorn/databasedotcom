@@ -15,6 +15,13 @@ Reference documentation is available at rubydoc.info[http://rubydoc.info/github/
 
 Source is available at github[http://github.com/heroku/databasedotcom]
 
+= Contributions
+
+To contribute, fork this repo, make changes in your fork, then send a pull request.  No pull requests without accompanying tests will be accepted.  To run tests in your fork, just do 
+
+    bundle install
+    rake
+
 = Usage
 == Initialization
 When you create a Databasedotcom::Client object, you need to configure it with a client id and client secret that corresponds to one of the Remote Access Applications configured within your Salesforce instance.  The Salesforce UI refers to the client id as "Consumer Key", and to the client secret as "Consumer Secret".
