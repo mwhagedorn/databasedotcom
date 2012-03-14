@@ -196,15 +196,16 @@ module Databasedotcom
       #
       #     client.picklist_values('color', :valid_for => 'ferrari')
       def self.picklist_values(attr_name, options={})
+        values = []
         if valid_for = options.delete(:valid_for)
           controller = self.type_map_attr(attr_name, :controller_name)
           self.type_map_attr(controller, :picklist_values).each_with_index do |value, index|
-            return self.type_map_attr(attr_name, :picklist_values).select { |v| self.test_bitset(v["validFor"], index) } if value["value"] == valid_for
+            values = self.type_map_attr(attr_name, :picklist_values).select { |v| self.test_bitset(v["validFor"], index) } if value["value"] == valid_for
           end
-          return []
         else
-          return self.type_map_attr(attr_name, :picklist_values)
+          values = self.type_map_attr(attr_name, :picklist_values)
         end
+        values
       end
       
       # Returns true if the picklist value is valid for the dependent picklist at index
